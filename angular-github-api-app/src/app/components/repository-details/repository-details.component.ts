@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { RouterModule } from '@angular/router';
 import { Location } from '@angular/common';
 import { GithubService } from '../../services/github.service';
+import { NavigationService } from '../../services/navigation.service';
 
 @Component({
   selector: 'app-repository-details',
@@ -23,7 +23,9 @@ export class RepositoryDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private githubService: GithubService,
-    private location: Location
+    private router: Router,
+    private location: Location,
+    private navigationService: NavigationService
   ) {}
 
   ngOnInit(): void {
@@ -40,6 +42,11 @@ export class RepositoryDetailsComponent implements OnInit {
   }
 
   goBack(): void {
+    this.navigationService.navigateBack();
     this.location.back();
+  }
+
+  viewIssues(): void {
+    this.router.navigate(['issues'], { relativeTo: this.route });
   }
 }

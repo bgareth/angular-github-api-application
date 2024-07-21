@@ -1,0 +1,35 @@
+import { Injectable } from '@angular/core';
+import { Router, NavigationEnd, NavigationStart } from '@angular/router';
+import { filter, pairwise } from 'rxjs/operators';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class NavigationService {
+  private history: string[] = [];
+  public isNavigatingBack = false;
+
+  constructor(private router: Router) {
+    this.router.events
+      .pipe(
+        filter(event => event instanceof NavigationEnd || event instanceof NavigationStart),
+        pairwise()
+      )
+      .subscribe(([prev, current]) => {
+        if (current instanceof NavigationStart) {
+          const prevIndex = this.history.findIndex(url => url === (prev as NavigationEnd).urlAfterRedirects);
+          const currIndex = this.history.findIndex(url => url === (current as NavigationStart).url);
+          this.isNavigatingBack = currIndex < prevIndex;
+        } else if (current instanceof NavigationEnd) {
+          if (this.history.length === 0 || this.history[this.history.length - 1] !== (current as NavigationEnd).urlAfterRedirects) {
+            this.history.push((current as NavigationEnd).urlAfterRedirects);
+          }
+        }
+      });
+  }
+
+  navigateBack(): void {
+    this.isNavigatingBack = true;
+    this.history.pop();
+  }
+}

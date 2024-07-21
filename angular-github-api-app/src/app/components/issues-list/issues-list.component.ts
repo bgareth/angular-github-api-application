@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
-import { RouterModule } from '@angular/router';
 import { Location } from '@angular/common';
 import { GithubService } from '../../services/github.service';
+import { NavigationService } from '../../services/navigation.service';
 
 @Component({
   selector: 'app-issues-list',
@@ -33,7 +33,9 @@ export class IssuesListComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private githubService: GithubService,
-    private location: Location
+    private location: Location,
+    private navigationService: NavigationService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -59,6 +61,7 @@ export class IssuesListComponent implements OnInit {
   }
 
   goBack(): void {
+    this.navigationService.navigateBack();
     this.location.back();
   }
 }

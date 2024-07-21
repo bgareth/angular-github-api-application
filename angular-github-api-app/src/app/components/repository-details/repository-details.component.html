@@ -6,5 +6,5 @@
   <p><strong>Stars:</strong> {{ repository.stargazers_count }}</p>
   <p><strong>Open Issues:</strong> {{ repository.open_issues_count }}</p>
   <a [href]="repository.html_url" target="_blank">View on GitHub</a>
-  <button mat-raised-button [routerLink]="['/repository', repository.owner.login, repository.name, 'issues']">View Issues</button>
+  <button mat-raised-button (click)="viewIssues()">View Issues</button>
 </div>
