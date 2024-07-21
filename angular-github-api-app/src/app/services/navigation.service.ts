@@ -8,6 +8,7 @@ import { filter, pairwise } from 'rxjs/operators';
 export class NavigationService {
   private history: string[] = [];
   public isNavigatingBack = false;
+  private searchState: { query: string, results: any[] } | null = null;
 
   constructor(private router: Router) {
     this.router.events
@@ -31,5 +32,15 @@ export class NavigationService {
   navigateBack(): void {
     this.isNavigatingBack = true;
     this.history.pop();
+  }
+
+  saveSearchState(query: string, results: any[]): void {
+    console.log('Saving search state:', { query, results });
+    this.searchState = { query, results };
+  }
+
+  getSearchState(): { query: string, results: any[] } | null {
+    console.log('Getting search state:', this.searchState);
+    return this.searchState;
   }
 }

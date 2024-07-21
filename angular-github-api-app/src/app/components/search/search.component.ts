@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -6,8 +6,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { GithubService } from '../../services/github.service';
+import { NavigationService } from '../../services/navigation.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
@@ -33,7 +34,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
     ])
   ]
 })
-export class SearchComponent {
+export class SearchComponent implements OnInit {
   repositories: any[] = [];
   searchQuery: string = '';
   loading: boolean = false;
@@ -41,7 +42,23 @@ export class SearchComponent {
   searchPerformed: boolean = false;
   currentSearchQuery: string = '';
 
-  constructor(private githubService: GithubService) {}
+  constructor(
+    private githubService: GithubService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private navigationService: NavigationService
+  ) {}
+
+  ngOnInit(): void {
+    const savedState = this.navigationService.getSearchState();
+    console.log('Restoring search state in ngOnInit:', savedState);
+    if (savedState) {
+      this.searchQuery = savedState.query;
+      this.repositories = savedState.results;
+      this.searchPerformed = true;
+      this.currentSearchQuery = savedState.query; // Ensure to update this to prevent immediate search reset
+    }
+  }
 
   searchRepositories() {
     if (!this.searchQuery || this.searchQuery === this.currentSearchQuery) {
@@ -53,6 +70,14 @@ export class SearchComponent {
       this.repositories = data.items;
       this.loading = false;
       this.searchPerformed = true;
+      console.log('Saving search state after search:', this.searchQuery, this.repositories);
+      this.navigationService.saveSearchState(this.searchQuery, this.repositories);
     });
+  }
+
+  navigateToRepository(owner: string, repo: string) {
+    console.log('Navigating to repository:', owner, repo);
+    this.navigationService.saveSearchState(this.searchQuery, this.repositories);
+    this.router.navigate(['/repository', owner, repo]);
   }
 }
