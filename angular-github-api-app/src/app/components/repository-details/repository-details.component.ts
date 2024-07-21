@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { Location } from '@angular/common';
 import { GithubService } from '../../services/github.service';
 import { NavigationService } from '../../services/navigation.service';
@@ -14,6 +15,7 @@ import { NavigationService } from '../../services/navigation.service';
   imports: [
     CommonModule,
     MatButtonModule,
+    MatIconModule,
     RouterModule
   ]
 })

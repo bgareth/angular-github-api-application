@@ -1,10 +1,14 @@
-<button mat-raised-button (click)="goBack()">Back</button>
-<div *ngIf="repository">
+<button mat-icon-button class="back-button" (click)="goBack()">
+  <mat-icon>arrow_back</mat-icon>
+</button>
+<div class="repository-content" *ngIf="repository">
   <h2>{{ repository.full_name }}</h2>
+  <a [href]="repository.html_url" target="_blank" class="github-link">View on GitHub</a>
   <p>{{ repository.description }}</p>
-  <p><strong>Forks:</strong> {{ repository.forks_count }}</p>
-  <p><strong>Stars:</strong> {{ repository.stargazers_count }}</p>
-  <p><strong>Open Issues:</strong> {{ repository.open_issues_count }}</p>
-  <a [href]="repository.html_url" target="_blank">View on GitHub</a>
+  <div class="stats-row">
+    <p><strong>Forks:</strong> {{ repository.forks_count }}</p>
+    <p><strong>Stars:</strong> {{ repository.stargazers_count }}</p>
+    <p><strong>Open Issues:</strong> {{ repository.open_issues_count }}</p>
+  </div>
   <button mat-raised-button (click)="viewIssues()">View Issues</button>
 </div>
