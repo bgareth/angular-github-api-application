@@ -51,7 +51,6 @@ export class SearchComponent implements OnInit {
 
   ngOnInit(): void {
     const savedState = this.navigationService.getSearchState();
-    console.log('Restoring search state in ngOnInit:', savedState);
     if (savedState) {
       this.searchQuery = savedState.query;
       this.repositories = savedState.results;
@@ -70,13 +69,11 @@ export class SearchComponent implements OnInit {
       this.repositories = data.items;
       this.loading = false;
       this.searchPerformed = true;
-      console.log('Saving search state after search:', this.searchQuery, this.repositories);
       this.navigationService.saveSearchState(this.searchQuery, this.repositories);
     });
   }
 
   navigateToRepository(owner: string, repo: string) {
-    console.log('Navigating to repository:', owner, repo);
     this.navigationService.saveSearchState(this.searchQuery, this.repositories);
     this.router.navigate(['/repository', owner, repo]);
   }

@@ -35,12 +35,10 @@ export class NavigationService {
   }
 
   saveSearchState(query: string, results: any[]): void {
-    console.log('Saving search state:', { query, results });
     this.searchState = { query, results };
   }
 
   getSearchState(): { query: string, results: any[] } | null {
-    console.log('Getting search state:', this.searchState);
     return this.searchState;
   }
 }
