@@ -17,11 +17,11 @@
     <div *ngIf="loading" class="loading-spinner-wrapper" @fadeInOut>
       <mat-spinner class="loading-spinner"></mat-spinner>
     </div>
-    <div *ngIf="!loading && repositories.length > 0" class="results-wrapper" @fadeInOut>
+    <div *ngIf="!loading && repositories.length > 0" class="results-wrapper" @fadeInOut @listAnimation>
       <mat-list>
         <ng-container *ngFor="let repo of repositories; let i = index">
-          <mat-list-item>
-            <a [routerLink]="['/repository', repo.owner.login, repo.name]">{{ repo.full_name }}</a>
+          <mat-list-item (click)="navigateToRepository(repo.owner.login, repo.name)">
+            <p>{{ repo.full_name }}</p>
           </mat-list-item>
         </ng-container>
       </mat-list>

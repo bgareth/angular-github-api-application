@@ -9,7 +9,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { GithubService } from '../../services/github.service';
 import { NavigationService } from '../../services/navigation.service';
-import { trigger, state, style, transition, animate } from '@angular/animations';
+import { trigger, state, style, transition, animate, query, stagger } from '@angular/animations';
 
 @Component({
   selector: 'app-search',
@@ -31,6 +31,16 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
       state('void', style({ opacity: 0, height: '0px' })),
       state('*', style({ opacity: 1, height: '*' })),
       transition(':enter, :leave', [animate('300ms ease-in-out')])
+    ]),
+    trigger('listAnimation', [
+      transition('* => *', [
+        query(':enter', [
+          style({ opacity: 0, transform: 'translateX(-50%)' }),
+          stagger(100, [
+            animate('150ms ease-out', style({ opacity: 1, transform: 'translateX(0)' }))
+          ])
+        ], { optional: true })
+      ])
     ])
   ]
 })
