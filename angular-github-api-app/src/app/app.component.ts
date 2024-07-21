@@ -19,15 +19,6 @@ export class AppComponent {
 
   prepareRoute(outlet: RouterOutlet) {
     const animation = this.navigationService.isNavigatingBack ? 'backward' : 'forward';
-
-    // Add no-overflow class when animation starts
-    this.renderer.addClass(document.body, 'no-overflow');
-
-    // Remove no-overflow class when animation ends
-    setTimeout(() => {
-      this.renderer.removeClass(document.body, 'no-overflow');
-    }, 300); // Match this duration with the animation duration
-
     return animation;
   }
 }

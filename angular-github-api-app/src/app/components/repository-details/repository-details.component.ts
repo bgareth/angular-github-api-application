@@ -3,6 +3,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Location } from '@angular/common';
 import { GithubService } from '../../services/github.service';
 import { NavigationService } from '../../services/navigation.service';
@@ -16,11 +17,13 @@ import { NavigationService } from '../../services/navigation.service';
     CommonModule,
     MatButtonModule,
     MatIconModule,
+    MatProgressSpinnerModule,
     RouterModule
   ]
 })
 export class RepositoryDetailsComponent implements OnInit {
   repository: any;
+  loading: boolean = true; // Add loading flag
 
   constructor(
     private route: ActivatedRoute,
@@ -37,9 +40,11 @@ export class RepositoryDetailsComponent implements OnInit {
     if (owner && repo) {
       this.githubService.getRepositoryDetails(owner, repo).subscribe((data: any) => {
         this.repository = data;
+        this.loading = false; // Set loading to false when data is loaded
       });
     } else {
       console.error('Owner or repository name is null');
+      this.loading = false; // Set loading to false in case of error
     }
   }
 
