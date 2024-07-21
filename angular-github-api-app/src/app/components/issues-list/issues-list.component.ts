@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { MatListModule } from '@angular/material/list';
+import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
+import { Location } from '@angular/common';
 import { GithubService } from '../../services/github.service';
 
 @Component({
@@ -16,11 +17,11 @@ import { GithubService } from '../../services/github.service';
   standalone: true,
   imports: [
     CommonModule,
-    HttpClientModule,
     MatFormFieldModule,
     MatSelectModule,
     MatOptionModule,
     MatListModule,
+    MatButtonModule,
     RouterModule
   ]
 })
@@ -31,7 +32,8 @@ export class IssuesListComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private githubService: GithubService
+    private githubService: GithubService,
+    private location: Location
   ) {}
 
   ngOnInit(): void {
@@ -54,5 +56,9 @@ export class IssuesListComponent implements OnInit {
     } else {
       this.filteredIssues = this.issues.filter(issue => issue.state === this.filterState);
     }
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 }

@@ -1,10 +1,10 @@
+<button mat-raised-button (click)="goBack()">Back</button>
 <div *ngIf="repository">
-    <h2>{{ repository.full_name }}</h2>
-    <p>{{ repository.description }}</p>
-    <p><strong>Forks:</strong> {{ repository.forks_count }}</p>
-    <p><strong>Stars:</strong> {{ repository.stargazers_count }}</p>
-    <p><strong>Open Issues:</strong> {{ repository.open_issues_count }}</p>
-    <a [href]="repository.html_url" target="_blank">View on GitHub</a>
-    <button mat-raised-button [routerLink]="['/repository', repository.owner.login, repository.name, 'issues']">View Issues</button>
+  <h2>{{ repository.full_name }}</h2>
+  <p>{{ repository.description }}</p>
+  <p><strong>Forks:</strong> {{ repository.forks_count }}</p>
+  <p><strong>Stars:</strong> {{ repository.stargazers_count }}</p>
+  <p><strong>Open Issues:</strong> {{ repository.open_issues_count }}</p>
+  <a [href]="repository.html_url" target="_blank">View on GitHub</a>
+  <button mat-raised-button [routerLink]="['/repository', repository.owner.login, repository.name, 'issues']">View Issues</button>
 </div>
-  

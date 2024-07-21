@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
+import { Location } from '@angular/common';
 import { GithubService } from '../../services/github.service';
 
 @Component({
@@ -13,7 +13,6 @@ import { GithubService } from '../../services/github.service';
   standalone: true,
   imports: [
     CommonModule,
-    HttpClientModule,
     MatButtonModule,
     RouterModule
   ]
@@ -23,7 +22,8 @@ export class RepositoryDetailsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private githubService: GithubService
+    private githubService: GithubService,
+    private location: Location
   ) {}
 
   ngOnInit(): void {
@@ -37,5 +37,9 @@ export class RepositoryDetailsComponent implements OnInit {
     } else {
       console.error('Owner or repository name is null');
     }
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 }
