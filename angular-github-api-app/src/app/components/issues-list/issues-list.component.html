@@ -1,0 +1,20 @@
+<div>
+    <h2>Issues</h2>
+    <mat-form-field appearance="fill">
+      <mat-label>Filter Issues</mat-label>
+      <mat-select [(value)]="filterState" (selectionChange)="filterIssues()">
+        <mat-option value="all">All</mat-option>
+        <mat-option value="open">Open</mat-option>
+        <mat-option value="closed">Closed</mat-option>
+      </mat-select>
+    </mat-form-field>
+  
+    <mat-list>
+      <mat-list-item *ngFor="let issue of filteredIssues">
+        <h3 matLine>{{ issue.title }}</h3>
+        <p matLine>{{ issue.state }} - {{ issue.created_at | date }}</p>
+        <a matLine [href]="issue.html_url" target="_blank">View on GitHub</a>
+      </mat-list-item>
+    </mat-list>
+</div>
+  

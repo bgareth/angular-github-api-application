@@ -1,0 +1,16 @@
+<div class="search-container">
+    <mat-form-field class="search-input" appearance="fill">
+      <mat-label>Search GitHub Repositories</mat-label>
+      <input matInput [(ngModel)]="searchQuery" />
+    </mat-form-field>
+    <button mat-raised-button (click)="searchRepositories()">Search</button>
+  
+    <div *ngIf="repositories.length">
+      <mat-list>
+        <mat-list-item *ngFor="let repo of repositories">
+          <a [routerLink]="['/repository', repo.owner.login, repo.name]">{{ repo.full_name }}</a>
+        </mat-list-item>
+      </mat-list>
+    </div>
+</div>
+  
