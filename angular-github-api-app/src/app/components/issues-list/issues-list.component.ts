@@ -58,6 +58,7 @@ export class IssuesListComponent implements OnInit, AfterViewInit {
   openIssuesCount: number = 0;
   closedIssuesCount: number = 0;
 
+  // Chart configuration
   public view: [number, number] = [700, 400];
   public showLegend: boolean = true;
   public showLabels: boolean = true;
@@ -65,6 +66,7 @@ export class IssuesListComponent implements OnInit, AfterViewInit {
   public doughnut: boolean = false;
   public gradient: boolean = true;
 
+  // Color scheme for the chart
   public colorScheme: Color = {
     name: 'vivid',
     selectable: true,
@@ -104,11 +106,13 @@ export class IssuesListComponent implements OnInit, AfterViewInit {
     this.cdr.detectChanges();
   }
 
+  // Adjust chart size on window resize
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.setChartView();
   }
 
+  // Filter issues based on the selected filter state
   filterIssues() {
     if (this.filterState === 'all') {
       this.filteredIssues = this.issues;
@@ -118,6 +122,7 @@ export class IssuesListComponent implements OnInit, AfterViewInit {
     this.updateChart(); // Update chart when filtering issues
   }
 
+  // Update chart data
   updateChart() {
     this.openIssuesCount = this.issues.filter(issue => issue.state === 'open').length;
     this.closedIssuesCount = this.issues.filter(issue => issue.state === 'closed').length;
@@ -128,6 +133,7 @@ export class IssuesListComponent implements OnInit, AfterViewInit {
     this.setChartView();
   }
 
+  // Set chart size based on container size
   setChartView() {
     if (this.chartContainer) {
       const width = this.chartContainer.nativeElement.offsetWidth;
@@ -135,11 +141,13 @@ export class IssuesListComponent implements OnInit, AfterViewInit {
     }
   }
 
+  // Open issue in a new tab
   openIssueInNewTab(issue: any): void {
     const url = issue.html_url;
     window.open(url, '_blank');
   }
 
+  // Navigate back to the previous route
   goBack(): void {
     this.navigationService.navigateBack();
     this.location.back();
