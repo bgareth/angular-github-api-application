@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, HostListener, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -11,6 +11,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Location } from '@angular/common';
 import { GithubService } from '../../services/github.service';
 import { NavigationService } from '../../services/navigation.service';
+import { NgxChartsModule, Color, ScaleType } from '@swimlane/ngx-charts';
 import { trigger, state, style, transition, animate, query, stagger } from '@angular/animations';
 
 @Component({
@@ -26,7 +27,8 @@ import { trigger, state, style, transition, animate, query, stagger } from '@ang
     MatListModule,
     MatButtonModule,
     MatIconModule,
-    MatProgressSpinnerModule, // Add MatProgressSpinnerModule here
+    MatProgressSpinnerModule,
+    NgxChartsModule,
     RouterModule
   ],
   animations: [
@@ -47,18 +49,38 @@ import { trigger, state, style, transition, animate, query, stagger } from '@ang
     ])
   ]
 })
-export class IssuesListComponent implements OnInit {
+export class IssuesListComponent implements OnInit, AfterViewInit {
+  @ViewChild('chartContainer') chartContainer!: ElementRef;
   issues: any[] = [];
   filteredIssues: any[] = [];
   filterState: string = 'all';
   loading: boolean = true;
+  openIssuesCount: number = 0;
+  closedIssuesCount: number = 0;
+
+  public view: [number, number] = [700, 400];
+  public showLegend: boolean = true;
+  public showLabels: boolean = true;
+  public explodeSlices: boolean = false;
+  public doughnut: boolean = false;
+  public gradient: boolean = true;
+
+  public colorScheme: Color = {
+    name: 'vivid',
+    selectable: true,
+    group: ScaleType.Ordinal,
+    domain: ['#5AA454', '#A10A28']
+  };
+
+  public single: any[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private githubService: GithubService,
     private location: Location,
     private navigationService: NavigationService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -69,12 +91,22 @@ export class IssuesListComponent implements OnInit {
       this.githubService.getRepositoryIssues(owner, repo).subscribe((data: any) => {
         this.issues = data;
         this.filterIssues();
+        this.updateChart();
         this.loading = false;
       });
     } else {
-      console.error('Owner or repository name is null');
       this.loading = false;
     }
+  }
+
+  ngAfterViewInit(): void {
+    this.setChartView();
+    this.cdr.detectChanges();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.setChartView();
   }
 
   filterIssues() {
@@ -82,6 +114,24 @@ export class IssuesListComponent implements OnInit {
       this.filteredIssues = this.issues;
     } else {
       this.filteredIssues = this.issues.filter(issue => issue.state === this.filterState);
+    }
+    this.updateChart(); // Update chart when filtering issues
+  }
+
+  updateChart() {
+    this.openIssuesCount = this.issues.filter(issue => issue.state === 'open').length;
+    this.closedIssuesCount = this.issues.filter(issue => issue.state === 'closed').length;
+    this.single = [
+      { name: 'Open Issues', value: this.openIssuesCount },
+      { name: 'Closed Issues', value: this.closedIssuesCount }
+    ];
+    this.setChartView();
+  }
+
+  setChartView() {
+    if (this.chartContainer) {
+      const width = this.chartContainer.nativeElement.offsetWidth;
+      this.view = [width, 400];
     }
   }
 

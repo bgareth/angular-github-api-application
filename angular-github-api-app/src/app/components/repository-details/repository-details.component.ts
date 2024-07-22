@@ -43,7 +43,6 @@ export class RepositoryDetailsComponent implements OnInit {
         this.loading = false; // Set loading to false when data is loaded
       });
     } else {
-      console.error('Owner or repository name is null');
       this.loading = false; // Set loading to false in case of error
     }
   }

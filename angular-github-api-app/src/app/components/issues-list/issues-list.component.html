@@ -1,29 +1,56 @@
-<button mat-icon-button class="back-button" (click)="goBack()">
-  <mat-icon>arrow_back</mat-icon>
-</button>
-<div class="container">
-  <div class="content">
-    <div class="filter-container">
-      <mat-form-field appearance="fill" class="filter-field">
-        <mat-label>Filter Issues</mat-label>
-        <mat-select [(value)]="filterState" (selectionChange)="filterIssues()">
-          <mat-option value="all">All</mat-option>
-          <mat-option value="open">Open</mat-option>
-          <mat-option value="closed">Closed</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div *ngIf="loading" class="loading-spinner-wrapper" @fadeInOut>
-      <mat-spinner class="loading-spinner"></mat-spinner>
-    </div>
-    <div *ngIf="!loading && filteredIssues.length > 0" class="results-wrapper" @fadeInOut @listAnimation>
-      <mat-list>
-        <ng-container *ngFor="let issue of filteredIssues; let i = index">
-          <mat-list-item (click)="openIssueInNewTab(issue)">
-            <p>{{ issue.title }}</p>
-          </mat-list-item>
-        </ng-container>
-      </mat-list>
+<div class="outer-container">
+  <div class="back-button-container">
+    <button mat-icon-button class="back-button" (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </div>
+  <div class="inner-container">
+    <div class="content">
+      <div class="filter-container">
+        <mat-form-field appearance="fill" class="filter-field">
+          <mat-label>Filter Issues</mat-label>
+          <mat-select [(value)]="filterState" (selectionChange)="filterIssues()">
+            <mat-option value="all">All</mat-option>
+            <mat-option value="open">Open</mat-option>
+            <mat-option value="closed">Closed</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div *ngIf="filterState === 'all'" class="chart-container" #chartContainer>
+        <div class="legend-container">
+          <div class="legend-item">
+            <span class="legend-color" style="background-color: #5AA454;"></span>
+            Open Issues ({{openIssuesCount}})
+          </div>
+          <div class="legend-item">
+            <span class="legend-color" style="background-color: #A10A28;"></span>
+            Closed Issues ({{closedIssuesCount}})
+          </div>
+        </div>
+        <ngx-charts-pie-chart
+          [view]="view"
+          [scheme]="colorScheme"
+          [results]="single">
+        </ngx-charts-pie-chart>
+      </div>
+      <div *ngIf="loading" class="loading-spinner-wrapper" @fadeInOut>
+        <mat-spinner class="loading-spinner"></mat-spinner>
+      </div>
+      <div *ngIf="!loading && filteredIssues.length > 0" class="content">
+        <div class="results-wrapper" @fadeInOut @listAnimation>
+          <mat-list>
+            <ng-container *ngFor="let issue of filteredIssues; let i = index">
+              <mat-list-item 
+                [ngClass]="{'open-issue': issue.state === 'open', 'closed-issue': issue.state === 'closed'}" 
+                [style.border-right]="issue.state === 'closed' && filterState === 'all' ? '2px solid #A10A28' : issue.state === 'open' && filterState === 'all' ? '2px solid #5AA454' : ''"
+                [style.color]="issue.state === 'closed' && filterState === 'all' ? 'white' : ''"
+                (click)="openIssueInNewTab(issue)">
+                <p>{{ issue.title }}</p>
+              </mat-list-item>
+            </ng-container>
+          </mat-list>
+        </div>
+      </div>
     </div>
   </div>
 </div>
