@@ -88,7 +88,7 @@ button {
 .results-wrapper {
     width: 100%;
     transition: opacity 0.3s ease-in-out;
-    border: 1px solid 1;
+    border: 1px solid #1a1a1a;
 }
 
 .results-wrapper mat-list-item {
@@ -101,9 +101,6 @@ button {
     color: white;
     transition: 0.3s;
     animation: slideInFromLeft 0.3s;
-}
-
-.results-wrapper mat-list-item {
     border: 1px solid #30363c;
     border-radius: 2px;
 }

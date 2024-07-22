@@ -60,6 +60,7 @@ export class SearchComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // Load saved search state if available
     const savedState = this.navigationService.getSearchState();
     if (savedState) {
       this.searchQuery = savedState.query;
@@ -69,6 +70,7 @@ export class SearchComponent implements OnInit {
     }
   }
 
+  // Perform search and update state
   searchRepositories() {
     if (!this.searchQuery || this.searchQuery === this.currentSearchQuery) {
       return;
@@ -83,6 +85,7 @@ export class SearchComponent implements OnInit {
     });
   }
 
+  // Navigate to repository details page
   navigateToRepository(owner: string, repo: string) {
     this.navigationService.saveSearchState(this.searchQuery, this.repositories);
     this.router.navigate(['/repository', owner, repo]);
