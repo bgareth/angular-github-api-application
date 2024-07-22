@@ -96,6 +96,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px;
+    cursor: pointer;
     background-color: #161b22;
     color: white;
     border: 1px solid #30363c;

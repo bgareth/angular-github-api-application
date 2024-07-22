@@ -85,6 +85,11 @@ export class IssuesListComponent implements OnInit {
     }
   }
 
+  openIssueInNewTab(issue: any): void {
+    const url = issue.html_url;
+    window.open(url, '_blank');
+  }
+
   goBack(): void {
     this.navigationService.navigateBack();
     this.location.back();

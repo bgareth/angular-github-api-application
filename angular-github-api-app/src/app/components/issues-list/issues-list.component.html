@@ -19,7 +19,7 @@
     <div *ngIf="!loading && filteredIssues.length > 0" class="results-wrapper" @fadeInOut @listAnimation>
       <mat-list>
         <ng-container *ngFor="let issue of filteredIssues; let i = index">
-          <mat-list-item>
+          <mat-list-item (click)="openIssueInNewTab(issue)">
             <p>{{ issue.title }}</p>
           </mat-list-item>
         </ng-container>
