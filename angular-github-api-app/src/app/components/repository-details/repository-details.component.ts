@@ -23,7 +23,7 @@ import { NavigationService } from '../../services/navigation.service';
 })
 export class RepositoryDetailsComponent implements OnInit {
   repository: any;
-  loading: boolean = true; // Add loading flag
+  loading: boolean = true; // Add loading state
 
   constructor(
     private route: ActivatedRoute,
@@ -38,6 +38,7 @@ export class RepositoryDetailsComponent implements OnInit {
     const repo = this.route.snapshot.paramMap.get('repo');
 
     if (owner && repo) {
+      // Fetch repository details from GitHub API
       this.githubService.getRepositoryDetails(owner, repo).subscribe((data: any) => {
         this.repository = data;
         this.loading = false; // Set loading to false when data is loaded
@@ -47,11 +48,13 @@ export class RepositoryDetailsComponent implements OnInit {
     }
   }
 
+  // Navigate back to the previous page
   goBack(): void {
     this.navigationService.navigateBack();
     this.location.back();
   }
 
+  // Navigate to the issues list for the repository
   viewIssues(): void {
     this.router.navigate(['issues'], { relativeTo: this.route });
   }
