@@ -5,7 +5,7 @@
   <div class="scrollable-content">
     <div class="repository-content" *ngIf="!loading && repository">
       <h2>{{ repository.full_name }}</h2>
-      <a [href]="repository.html_url" target="_blank" class="github-link">View on GitHub</a>
+      <a [href]="repository.html_url" target="_blank" class="github-link">{{ repository.html_url }}</a>
       <p>{{ repository.description }}</p>
       <div class="stats-row">
         <p><strong>Forks:</strong> {{ repository.forks_count }}</p>
