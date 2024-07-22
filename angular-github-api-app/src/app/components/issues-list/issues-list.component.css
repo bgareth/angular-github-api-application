@@ -1,0 +1,134 @@
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  :host {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+  
+  .container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    overflow-y: auto;
+    box-sizing: border-box;
+    padding: 20px;
+  }
+  
+  .container::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  .container::-webkit-scrollbar-track {
+    background: #1a1a1a;
+  }
+  
+  .container::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 5px;
+  }
+  
+  .container::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+  
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+    margin: auto 0;
+  }
+  
+  .filter-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: sticky;
+    top: 40px;
+    z-index: 999;
+  }
+  
+  .filter-field {
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 10px;
+  }
+  
+  .loading-spinner-wrapper {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.3s ease-in-out;
+  }
+  
+  .results-wrapper {
+    width: 100%;
+    transition: opacity 0.3s ease-in-out;
+  }
+  
+  .results-wrapper mat-list-item {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #161b22;
+    color: white;
+    border: 1px solid #30363c;
+    border-radius: 2px;
+    transition: 0.3s;
+  }
+  
+  .results-wrapper mat-list-item:hover {
+    background-color: #1f262e;
+    color: #4585d9;
+    transition: 0s;
+  }
+  
+  .results-wrapper mat-list-item:nth-child(odd) {
+    background-color: #161b22;
+  }
+  
+  .results-wrapper mat-list-item:nth-child(even) {
+    background-color: #121417;
+  }
+  
+  .results-wrapper mat-list-item:hover,
+  .results-wrapper mat-list-item:nth-child(odd):hover,
+  .results-wrapper mat-list-item:nth-child(even):hover {
+    background-color: #1f262e;
+    color: #4585d9;
+  }
+  
+  .results-wrapper mat-list-item p {
+    color: white;
+    margin: 0px;
+  }
+  
+  .results-wrapper mat-list-item:hover p {
+    color: #4585d9;
+  }
+  

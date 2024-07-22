@@ -1,14 +1,29 @@
-<button mat-raised-button (click)="goBack()">Back</button>
-<mat-form-field appearance="fill">
-  <mat-label>Filter Issues</mat-label>
-  <mat-select [(value)]="filterState" (selectionChange)="filterIssues()">
-    <mat-option value="all">All</mat-option>
-    <mat-option value="open">Open</mat-option>
-    <mat-option value="closed">Closed</mat-option>
-  </mat-select>
-</mat-form-field>
-<mat-list>
-  <mat-list-item *ngFor="let issue of filteredIssues">
-    {{ issue.title }}
-  </mat-list-item>
-</mat-list>
+<button mat-icon-button class="back-button" (click)="goBack()">
+  <mat-icon>arrow_back</mat-icon>
+</button>
+<div class="container">
+  <div class="content">
+    <div class="filter-container">
+      <mat-form-field appearance="fill" class="filter-field">
+        <mat-label>Filter Issues</mat-label>
+        <mat-select [(value)]="filterState" (selectionChange)="filterIssues()">
+          <mat-option value="all">All</mat-option>
+          <mat-option value="open">Open</mat-option>
+          <mat-option value="closed">Closed</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div *ngIf="loading" class="loading-spinner-wrapper" @fadeInOut>
+      <mat-spinner class="loading-spinner"></mat-spinner>
+    </div>
+    <div *ngIf="!loading && filteredIssues.length > 0" class="results-wrapper" @fadeInOut @listAnimation>
+      <mat-list>
+        <ng-container *ngFor="let issue of filteredIssues; let i = index">
+          <mat-list-item>
+            <p>{{ issue.title }}</p>
+          </mat-list-item>
+        </ng-container>
+      </mat-list>
+    </div>
+  </div>
+</div>
